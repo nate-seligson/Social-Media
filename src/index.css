@@ -1,0 +1,17 @@
+@font-face {
+  font-family: basic;
+  src: url(../bodoni/BodoniFLF-Roman.ttf);
+}
+@font-face {
+  font-family: basicBold;
+  src: url(../bodoni/BodoniFLF-Bold.ttf);
+}
+body{
+  background-color: #4b4b4b;
+  color:rgb(187, 187, 187);
+  font-family: basicBold;
+  letter-spacing: 3px;
+  margin:-10px;
+  width:100%;
+  transition:0.5s ease;
+}
