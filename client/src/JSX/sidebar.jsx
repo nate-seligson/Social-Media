@@ -31,8 +31,8 @@ function Sidebar(props){
   function NamePlate(props){
     return(
       <div className = "hidden sm:block">
-      <h1 className = "text-slate-300 text-2xl hover:tracking-widest transition-all ease">Brian Johnson</h1>
-      <h4 className = "text-neutral-500 text-lg italic hover:tracking-widest transition-all ease ">@brian_johnson99</h4>
+      <h1 className = "text-slate-300 text-2xl hover:tracking-widest transition-all ease">{props.name}</h1>
+      <h4 className = "text-neutral-500 text-lg italic hover:tracking-widest transition-all ease ">@{props.username}</h4>
       </div>
     )
   }
@@ -55,11 +55,11 @@ function Sidebar(props){
    </div>
   )
   }
-  export function ProfileSidebar(){
+  export function ProfileSidebar(props){
     return(
         <Sidebar>
             <ProfilePicture />
-            <NamePlate />
+            <NamePlate name = {props.name} username = {props.username} />
             <Stats />
         </Sidebar>
     )

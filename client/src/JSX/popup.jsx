@@ -1,4 +1,6 @@
 import { useState } from "react"
+import {Children} from "react"
+import { cloneElement } from "react";
 export function Popup(props){
     const [hidden, setHidden] = useState(false);
     function Hide(){
@@ -11,7 +13,9 @@ export function Popup(props){
         </div>
         <div className="bg-green-200 z-20 w-1/2 h-fit m-20 rounded-lg">
            {props.children}
-           <button onClick = {Hide} className = "float-right bg-green-400 p-1 m-5 rounded-xl hover:tracking-widest hover:bg-green-600 transition-all ease">{props.button}</button>
+           <div onClick = {Hide}>
+           {props.button}
+           </div>
         </div>
     </div>)
 }
