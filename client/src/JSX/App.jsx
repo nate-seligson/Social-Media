@@ -6,9 +6,11 @@ function App() {
   const [username, setUserName] = useState("user")
   function sendData(){
     const data = {Username:document.getElementById("u").value, Password:document.getElementById("p").value, Display:document.getElementById("d").value};
+
     setName(data.Display);
     setUserName(data.Username);
-    (async () => {
+
+    return (async () => {
       const rawResponse = await fetch('/api/test', {
         method: 'POST',
         headers: {
@@ -17,6 +19,8 @@ function App() {
         },
         body: JSON.stringify(data)
       });
+      const content = await rawResponse.json();
+      return await content.response;
     })();
   }
   return (

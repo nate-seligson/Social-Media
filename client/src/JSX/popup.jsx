@@ -3,9 +3,15 @@ import {Children} from "react"
 import { cloneElement } from "react";
 export function Popup(props){
     const [hidden, setHidden] = useState(false);
-    function Hide(){
+    const [errorMsg, setError] = useState("");
+    async function Hide(){
+        const response = await props.method();
+        if(response == true){
         setHidden(true)
-        props.method()
+        }
+        else if(response == "uTaken"){
+            setError("Error: Username taken. Please try a different username.")
+        }
     }
     return(
     <div style = {hidden ? {display:"none"} : {display:"flex"}}className="flex justify-center align-middle w-screen h-screen absolute top-0 left-0">
@@ -16,6 +22,7 @@ export function Popup(props){
            <div onClick = {Hide}>
            {props.button}
            </div>
+           <h1 className="text-red-500 ml-5">{errorMsg}</h1>
         </div>
     </div>)
 }

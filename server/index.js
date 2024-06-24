@@ -12,14 +12,14 @@ app.post("/test", (req,res) =>{
             const pair = acc.split(",")
             dict[pair[1]] = pair[2]
         })
-        if(dict[body.Username] == body.Password){
-            console.log("welcome back")
-        }
-        else if(dict[body.Username] != body.Password && dict[body.Username] != null){
-            console.log(dict[body.Username])
+        if(dict[body.Username] != null){
+            res.json({response:"uTaken"})
+            res.end()
         }
         else{
+            res.json({response:true})
             fs.appendFile(filePath,createNewAccount(body), function(){})
+            res.end()
         }
     });
 })
