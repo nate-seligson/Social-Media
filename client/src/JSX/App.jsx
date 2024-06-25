@@ -3,8 +3,7 @@ import {Popup } from "./popup.jsx"
 import { useState } from "react"
 import { UserDataHandler } from "../JS/DataHandler.js"
 function App() {
-    const [name, setName] = useState("e")
-    const [username, setUserName] = useState("e")
+    const [user, setUser] = useState(new UserDataHandler("","",""))
     const [errorMsg, setErr] = useState("");
     const [popup, setPopup] = useState("create_account")
     async function CreateAccount(){
@@ -13,11 +12,13 @@ function App() {
         console.log(response)
         if(response == true){
           setPopup("");
-          setName(userData.displayname);
-          setUserName(userData.username);
+          setUser(userData);
         }
         else if(response == "uTaken"){
          setErr("Error: Username taken. Please try a different username.")
+        }
+        else{
+          setErr("Error: Could not connect to server.")
         }
     }
     async function Login(){
@@ -25,19 +26,26 @@ function App() {
         const response = await userData.AttemptLogin()
         if(response == true){
           setPopup("");
-          setName(userData.displayname);
-          setUserName(userData.username);
+          setUser(userData);
         }
         else if(response == "inc"){
           setErr("Error: Incorrect Username or Password. Please try again.")
          }
+         else{
+          setErr("Error: Could not connect to server.")
+        }
     }
-
+    async function setPFP(event){
+      if (event.target.files && event.target.files[0]) {
+        await user.setPfp(event.target.files[0]);
+        return user.pfpURL
+      }
+    }
 
   return (
     <>
     <div className = "flex w-fit static">
-      <ProfileSidebar name = {name} username = {username}/>
+      <ProfileSidebar name = {user.displayname} username = {user.username} pfp = {user.pfpURL} pfpMethod = {setPFP}/>
       <div className = "flex flex-col h-screen">
         <h1 className = "lg:text-4xl sm:text-2xl">Posts</h1>
         <img src = "./src/ofo.jpg"></img>

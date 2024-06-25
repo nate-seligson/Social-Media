@@ -1,5 +1,5 @@
 import {Arrow, Heart, Person} from "./svg.jsx"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 const iconBasic = "transition-all ease brightness-50 group-hover:brightness-100 fill-green-700"
 function Sidebar(props){
     const [open, setOpen] = useState(true);
@@ -14,7 +14,7 @@ function Sidebar(props){
     return(
       <div style = {open ? {marginLeft: "0rem"} : {marginLeft: width}} className = "flex transition-all duration-500 ease">
         <div className = {styles}>
-          <h1 className="hover:tracking-widest transition-all ease bg-green-900 w-full h-fit py-10 text-5xl sm:text-4xl">{width == "-6rem" ? "N" : "Natestagram"}</h1>
+          <h1 className="hover:tracking-widest transition-all ease bg-green-900 w-full h-fit py-10 text-5xl sm:text-4xl">{width == "-6rem" ? "F" : "Flikstagram"}</h1>
           {props.children}
         </div>
         <button className = "right-10 transition-all ease w-10 hover:fill-green-800 fill-green-950" onClick = {toggleOpen}>
@@ -24,8 +24,23 @@ function Sidebar(props){
     )
   }
   function ProfilePicture(props){
+    const [src, changeSrc] = useState("");
+    console.log(props.url)
+    useEffect(() =>{props.url == "" ? changeSrc("./src/assets/profile.svg") : changeSrc(props.url)},[props.url])
+    const getImage = async(event) => {
+      changeSrc(await props.method(event))
+    }
     return(
-      <img src = "./src/ofo.jpg" className = "transition-all ease hover:rounded rounded-3xl aspect-sqaure border-4 border-green-700 mt-10"></img>
+      <div className="group relative h-max w-full mt-5 sm:mt-0">
+        <label for = "uploadFile">
+          <div className="flex justify-center sm:m-5 sm:h-52">
+            <img src = {src}className = "w-full h-full transition-all ease group-hover:rounded group-hover:brightness-50 rounded-3xl object-cover aspect-sqaure border-4 border-green-700 bg-emerald-950">
+            </img>
+          </div>
+          <img src = "./src/assets/edit.svg" className = " w-10 sm:w-max transition-all ease opacity-0 group-hover:opacity-100 absolute top-1/2 left-1/2  -translate-x-1/2 -translate-y-1/2"></img>
+        </label>
+        <input type="file" accept="image/*" onChange={getImage} id="uploadFile" style={{display:"none"}} />
+      </div>
     )
   }
   function NamePlate(props){
@@ -58,7 +73,7 @@ function Sidebar(props){
   export function ProfileSidebar(props){
     return(
         <Sidebar>
-            <ProfilePicture />
+            <ProfilePicture url = {props.pfp} method = {props.pfpMethod}/>
             <NamePlate name = {props.name} username = {props.username} />
             <Stats />
         </Sidebar>
