@@ -1,28 +1,11 @@
-import { useState } from "react"
-import {Children} from "react"
-import { cloneElement } from "react";
 export function Popup(props){
-    const [hidden, setHidden] = useState(false);
-    const [errorMsg, setError] = useState("");
-    async function Hide(){
-        const response = await props.method();
-        if(response == true){
-        setHidden(true)
-        }
-        else if(response == "uTaken"){
-            setError("Error: Username taken. Please try a different username.")
-        }
-    }
     return(
-    <div style = {hidden ? {display:"none"} : {display:"flex"}}className="flex justify-center align-middle w-screen h-screen absolute top-0 left-0">
+    <div style = {props.hidden ? {display:"flex"} : {display:"none"}}className="flex justify-center align-middle w-screen h-screen absolute top-0 left-0">
         <div className = "fixed w-screen h-screen opacity-50 bg-black">
         </div>
         <div className="bg-green-200 z-20 w-1/2 h-fit m-20 rounded-lg">
            {props.children}
-           <div onClick = {Hide}>
-           {props.button}
-           </div>
-           <h1 className="text-red-500 ml-5">{errorMsg}</h1>
+           <h1 className="text-red-500 ml-5">{props.error}</h1>
         </div>
     </div>)
 }
