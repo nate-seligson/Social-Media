@@ -45,7 +45,17 @@ class fileReader{
             })
             res+=temp + `\n`
         })
-        fs.writeFile(this.filePath, res, function(){})
+        fs.writeFileSync(this.filePath, res)
+        this.Read()
+    }
+    Read(){
+        fs.readFileSync(this.filePath, { encoding: 'utf8', flag: 'r' }).split("\n").forEach((path) =>{
+            let temp = []
+            path.split(",").forEach((item) =>{
+                temp.push(item)
+            })
+            this.filedata.push(temp)
+        })
     }
     Index(q){
         for(var i = 0; i<this.filedata.length; i++){
@@ -53,7 +63,8 @@ class fileReader{
         }
     }
     appendFile(txt){
-        fs.appendFile(this.filePath,txt, function(){})
+        fs.appendFileSync(this.filePath,txt)
+        this.Read()
     }
 }
 module.exports = {fileReader, createId};

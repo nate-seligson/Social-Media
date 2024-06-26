@@ -1,7 +1,7 @@
 const {fileReader, createId} = require('./filehandler.js')
 const fr = new fileReader("data/data.csv")
-const userDict = fr.buildDict(0)
-const uIDDict = fr.buildDict(2)
+let userDict = fr.buildDict(0)
+let uIDDict = fr.buildDict(2)
 function HandleAccount(body,res){
         if(body.Type == "createNew"){
             if(userDict[body.Username] != null){
@@ -28,6 +28,8 @@ function HandleAccount(body,res){
             const index = fr.Index(body.uID)
             fr.filedata[index][4] = body.URL;
             fr.reBuild();
+            userDict = fr.buildDict(0)
+            uIDDict = fr.buildDict(2)
             res.json({response:true})
         }
         else if(body.Type == "lookup"){

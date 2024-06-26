@@ -56,7 +56,7 @@ export class PublicUser{
         const data = await this.sendData({Type:"lookup", uID:uID})
         this.username = data.username;
         this.displayname = data.displayname;
-        this.pfpURL = data.pfpURL;
+        this.pfpURL = await decodePhoto(data.pfpURL);
         return
     }
     //BAD create parent class
