@@ -33,7 +33,7 @@ function Sidebar(props){
     return(
       <div className="group relative h-max w-full mt-5 sm:mt-0">
         <label for = "uploadFile">
-          <div className="flex justify-center sm:m-5 sm:h-52">
+          <div className="flex justify-center h-24 sm:m-5 sm:h-52">
             <img src = {src}className = "w-full h-full transition-all ease group-hover:rounded group-hover:brightness-50 rounded-3xl object-cover aspect-sqaure border-4 border-green-700 bg-emerald-950">
             </img>
           </div>

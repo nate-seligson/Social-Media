@@ -51,7 +51,7 @@ export class UserDataHandler{
             byteNumbers[i] = byteCharacters.charCodeAt(i);
         }
         const byteArray = new Uint8Array(byteNumbers);
-        const blob = new Blob([byteArray], {type:"image/svg+xml"});
+        const blob = new Blob([byteArray], {type:"image/*"});
         this.pfpURL = URL.createObjectURL(blob);
     }
     sendData(data){
