@@ -17,7 +17,7 @@ function Sidebar(props){
           <h1 className="hover:tracking-widest transition-all ease bg-green-900 w-full h-fit py-10 text-5xl sm:text-4xl">{width == "-6rem" ? "F" : "Flikstagram"}</h1>
           {props.children}
         </div>
-        <button className = "right-10 transition-all ease w-10 hover:fill-green-800 fill-green-950" onClick = {toggleOpen}>
+        <button className = "right-10 transition-all ease w-10 hover:fill-green-800 fill-green-950 mr-5" onClick = {toggleOpen}>
           <Arrow rotate = {open} className = "w-full transition-all ease"/>
         </button>
       </div>
@@ -25,8 +25,7 @@ function Sidebar(props){
   }
   function ProfilePicture(props){
     const [src, changeSrc] = useState("");
-    console.log(props.url)
-    useEffect(() =>{props.url == "" ? changeSrc("./src/assets/profile.svg") : changeSrc(props.url)},[props.url])
+    useEffect(() =>{props.url == "nothing" ? changeSrc("./src/assets/profile.svg") : changeSrc(props.url)},[props.url])
     const getImage = async(event) => {
       changeSrc(await props.method(event))
     }

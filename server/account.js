@@ -1,36 +1,17 @@
-fs = require('fs')
-let filePath = "data/data.csv"
-let filedata = []
-let userDict = {}
-let idDict = {}
-fs.readFile(filePath, 'utf8', function (err, data) {
-    data.split("\n").forEach(function(acc){
-        const pair = acc.split(",")
-        filedata.push(pair)
-    })
-const buildDict = (dict, index, user) => {
-    dict[user[index]] = []; 
-    for(let i = 0; i<user.length; i++)
-    {
-        if(i == index){continue}; 
-        dict[user[index]].push(user[i])
-    }
-}
-filedata.forEach((user) =>{
-   buildDict(userDict, 0, user)
-   buildDict(idDict, 2, user)
-})
-});
-function HandleAccount(body,req,res){
+const {fileReader, createId} = require('./filehandler.js')
+const fr = new fileReader("data/data.csv")
+const userDict = fr.buildDict(0)
+const uIDDict = fr.buildDict(2)
+function HandleAccount(body,res){
         if(body.Type == "createNew"){
             if(userDict[body.Username] != null){
                 res.json({response:"uTaken"})
                 res.end()
             }
             else{
-                const uID = createUserId()
+                const uID = createId()
                 res.json({response:true, uID: uID})
-                fs.appendFile(filePath,createNewAccount(body, uID), function(){})
+                fr.appendFile(createNewAccount(body, uID))
                 res.end()
             }
         }
@@ -44,40 +25,20 @@ function HandleAccount(body,req,res){
             }
         }
         else if(body.Type == "pfp"){
-            const index = userIndex(body.uID)
-            filedata[index][4] = body.URL;
-            reBuild();
+            const index = fr.Index(body.uID)
+            fr.filedata[index][4] = body.URL;
+            fr.reBuild();
             res.json({response:true})
         }
-}
-function createUserId(){
-    const chars = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM./?!@#$%^&*()~_"
-    let res = ""
-    for(let i = 0; i<24; i++){
-        res+=chars[Math.floor(Math.random() * chars.length)]
-    }
-    return res
+        else if(body.Type == "lookup"){
+            const items = uIDDict[body.uID]
+            res.json({response:true, username:items[0], displayname:items[2], pfpURL:items[3]})
+        }
 }
 function createNewAccount(data, uID){
     const user = data.Username;
     const pass = data.Password;
     const dispName = data.Display;
-    return `${user},${pass},${uID},${dispName},null\n`
+    return `${user},${pass},${uID},${dispName},nothing\n`
 }
-function reBuild(){
-    res = ""
-    filedata.forEach((user) =>{
-        temp = ``
-        user.forEach((line)=>{
-            temp += `${line},`
-        })
-        res+=temp + `\n`
-    })
-    fs.writeFile(filePath, res, function(){})
-}
-function userIndex(q){
-    for(var i = 0; i<filedata.length; i++){
-        if(filedata[i].includes(q)){return i}
-    }
-}
-module.exports = HandleAccount;
+module.exports = {HandleAccount, createId};
