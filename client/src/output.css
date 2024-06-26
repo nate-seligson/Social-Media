@@ -959,6 +959,10 @@ video {
   width: 100svw;
 }
 
+.w-60 {
+  width: 15rem;
+}
+
 .flex-shrink {
   flex-shrink: 1;
 }
@@ -1118,6 +1122,10 @@ video {
 
 .scroll-smooth {
   scroll-behavior: smooth;
+}
+
+.break-words {
+  overflow-wrap: break-word;
 }
 
 .rounded {

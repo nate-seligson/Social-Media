@@ -2,7 +2,7 @@ import {useState, useEffect} from "react"
 
 export function Post(props){
     return(
-        <div className="bg-green-900 hover:border-8 transition-all ease border-green-950 w-64 sm:w-96 shrink-0 h-80 rounded-3xl">
+        <div className="bg-green-900 hover:border-8 transition-all ease border-green-950 break-words w-68 sm:w-96 shrink-0 h-80 rounded-3xl">
             <div className="flex flex-col">
                 <div className="flex flex-row justify-between transition-all ease hover:drop-shadow-2xl bg-green-800 rounded-2xl">
                     <div className="flex flex-col w-full p-4">
