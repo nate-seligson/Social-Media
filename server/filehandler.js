@@ -49,6 +49,7 @@ class fileReader{
         this.Read()
     }
     Read(){
+        this.filedata = []
         fs.readFileSync(this.filePath, { encoding: 'utf8', flag: 'r' }).split("\n").forEach((path) =>{
             let temp = []
             path.split(",").forEach((item) =>{
